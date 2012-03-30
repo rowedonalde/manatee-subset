@@ -320,28 +320,30 @@ Block BLOCK(): {
 }
 
 // ----------------------------
-// SIMPLESTMT -> write EXP
-//            |  read EXP
+// SIMPLESTMT -> increment EXP (by EXP)?
+//            |  decrement EXP (by EXP)?
 //            |  set EXP to EXP
 //            |  exit the loop
 //            |  return EXP?
+//            |  fail with EXP?
 //            |  do nothing
-//            |  do ID EXPLIST?
+//            |  do ID EXPLIST? (after EXP seconds)?
 // ----------------------------
 
 Statement SIMPLESTMT(): {
     Expression e = null;
+    Expression e2 = null;
     Token t = null;
     Expression source;
     Expression target;
     List<Expression> args = new ArrayList<Expression>();
 }{
     (
-        "write" e = EXP()
-        {return new WriteStatement(e);}
+        "increment" e = EXP() ("by" e2 = EXP())?
+        {return new BinaryExpression(e1, "increment", e2) 
     |
-        "read" e = EXP()
-        {return new ReadStatement(e);}
+        "decrement" e = EXP() ("by" e2 = EXP())?
+        {return new BinaryExpression(e1, "decrement", e2) 
     |
         "set" target = EXP() "to" source = EXP()
         {return new AssignmentStatement(target, source);}
@@ -352,17 +354,20 @@ Statement SIMPLESTMT(): {
         "return" (e = EXP())?
         {return new ReturnStatement(e);}
     |
+        "fail" ("with" e = EXP())?
+        {return new FailStatement(e)
+    |
         LOOKAHEAD(2) "do" "nothing"
         {return new DoNothingStatement();}
     |
-        "do" t = <ID> args = EXPLIST()
-        {return new CallStatement(t.image, args);}
+        "do" t = <ID> (args = EXPLIST())? ("after" e = EXP() ("second" | "seconds"))?
+        {return new CallStatement(t.image, args, e);}
     )
 }
 
-// ----------------------------
-// MODIFIER -> (if | while) EXP
-// ----------------------------
+// ---------------------------------------------
+// MODIFIER -> (if | while | unless | until) EXP
+// ---------------------------------------------
 
 ModifiedStatement.Modifier MODIFIER(): {
     ModifiedStatement.ModifierType m;
@@ -372,6 +377,10 @@ ModifiedStatement.Modifier MODIFIER(): {
         "if" {m = ModifiedStatement.ModifierType.IF;}
     |
         "while" {m = ModifiedStatement.ModifierType.WHILE;}
+    |
+        "unless" {m = ModifiedStatement.ModifierType.UNLESS;}
+    |
+        "until" {m = ModifiedStatement.ModifierType.UNTIL;}
     )
     e = EXP()
     {return new ModifiedStatement.Modifier(m, e);}
@@ -380,6 +389,7 @@ ModifiedStatement.Modifier MODIFIER(): {
 // --------------------------
 // COMPLEXSTMT -> CONDITIONAL
 //             |  LOOP
+//             |  TRY
 // --------------------------
 
 Statement COMPLEXSTMT(): {
@@ -389,11 +399,13 @@ Statement COMPLEXSTMT(): {
         s = CONDITIONAL()
     |
         s = LOOP()
+    |
+        s = TRY()
     )
     {return s;}
 }
 // ------------------------------------------------------------------
-// CONDITIONAL -> if EXP BLOCK (else if EXP BLOCK)* (else BLOCK)? end
+// CONDITIONAL -> if EXP BLOCK (else if EXP BLOCK)* (else BLOCK)? end             
 // ------------------------------------------------------------------
 
 Statement CONDITIONAL(): {
@@ -419,7 +431,7 @@ Statement CONDITIONAL(): {
 // -----------------------------------------------------
 // LOOP        -> LOOPCONTROL BLOCK end
 // LOOPCONTROL -> loop (EXP times)?
-//             |  while EXP
+//             |  (while | unless) EXP
 //             |  for each ID in EXP (to EXP (by EXP)?)?
 // -----------------------------------------------------
 
@@ -437,6 +449,9 @@ Statement LOOP(): {
         "while" e = EXP() b = BLOCK() "end"
         {return new WhileLoop(e, b);}
     |
+        "until" e = EXP() b = BLOCK() "end"
+        {return new UntilLoop(e, b);}
+    |
         "for" "each" t = <ID> "in" e = EXP()
         (
             "to" e2 = EXP() ("by" e3 = EXP())?
@@ -450,6 +465,18 @@ Statement LOOP(): {
             }
         }
     )
+}
+
+// ----------------------------------
+// TRY -> try BLOCK recover BLOCK end
+// ----------------------------------
+
+Statement TRY(): {
+    Block tryBlock;
+    Block recoverBlock;
+}{
+    "try" tryBlock = BLOCK() "recover" recoverBlock = BLOCK() "end"
+    {return new TryStatement(tryBlock, recoverBlock);}
 }
 
 // ----------------------
@@ -473,8 +500,47 @@ Expression EXP1(): {
     Expression e1;
     Expression e2;
 }{
+    e1 = EXP2()
+    ("and" e2 = EXP2() {e1 = new BinaryExpression(e1, "and", e2);})*
+    {return e1;}
+}
+
+// ---------------------------
+// EXP2 -> EXP3 (bit or EXP3)*
+// ---------------------------
+
+Expression EXP2(): {
+    Expression e1;
+    Expression e2;
+}{
+    e1 = EXP3()
+    (LOOKAHEAD(2) "bit" "or" e2 = EXP3() {e1 = new BinaryExpression(e1, "bit or", e2);})*
+    {return e1;}
+}
+
+// ----------------------------
+// EXP3 -> EXP4 (bit xor EXP4)*
+// ----------------------------
+
+Expression EXP3(): {
+    Expression e1;
+    Expression e2;
+}{
+    e1 = EXP4()
+    (LOOKAHEAD(2) "bit" "xor" e2 = EXP4() {e1 = new BinaryExpression(e1, "bit xor", e2);})*
+    {return e1;}
+}
+
+// ----------------------------
+// EXP4 -> EXP5 (bit and EXP3)*
+// ----------------------------
+
+Expression EXP4(): {
+    Expression e1;
+    Expression e2;
+}{
     e1 = EXP5()
-    ("and" e2 = EXP5() {e1 = new BinaryExpression(e1, "and", e2);})*
+    (LOOKAHEAD(2) "bit" "and" e2 = EXP5() {e1 = new BinaryExpression(e1, "bit and", e2);})*
     {return e1;}
 }
 
@@ -585,21 +651,33 @@ Expression EXP10(): {
 // -------------------------
 // EXP11 -> LITERAL
 //       |  ID
+//       |  ID '{' ID ':' EXP (',' ID ':' EXP)* '}' //probably not?
 //       |  '[' EXPLIST? ']'
 //       |  '(' EXP ')'
 // -------------------------
 
 Expression EXP11(): {
     List<Expression> expressions = new ArrayList<Expression>();
+    List<String> dictionaryKeys = new ArrayList<String>();
     Expression e = null;
     Token t;
+    Token t2;
+    Token key;
+    Token valueExpression;
 }{
     (
         e = LITERAL()
         {return e;}
     |
-        t = <ID>
+        //LOOKAHEAD(2) t = <ID>
+        LOOKAHEAD(2) t = <ID>
         {return new IdentifierExpression(t.image);}
+    |
+        LOOKAHEAD(2) t = <ID> "{" key = <ID> {dictionaryKeys.add(key.image);} ":"
+        valueExpression = EXP() {expressions.add(valueExpression);}
+        ("," key = <ID> {dictionaryKeys.add(key.image);} ":"
+        valueExpression = EXP() {expressions.add(valueExpression);})* "}"
+        {return new IdentifierExpression(t.image, dictionaryKeys, expressions);}
     |
         "[" (expressions = EXPLIST())? "]"
         {return new ArrayConstructor(expressions);}
@@ -650,9 +728,9 @@ List<Expression> EXPLIST(): {
     {return expressions;}
 }
 
-// ------------------------------------------------------
-// RELOP -> '<' | '<=' | '=' | '≠' | '>=' | '>' | is not?
-// ------------------------------------------------------
+// ----------------------------------------------------------------
+// RELOP -> '<' | '<=' | '=' | '≠' | '>=' | '>' | divides | is not?
+// ----------------------------------------------------------------
 
 String RELOP(): {
 }{
@@ -667,6 +745,8 @@ String RELOP(): {
     ">=" {return ">=";}
     |
     ">" {return ">";}
+    |
+    "divides" {return "divides";}
     |
     LOOKAHEAD(2) "is" "not" {return "is not";}
     |
@@ -695,24 +775,24 @@ String ADDOP(): {
     {return t.image;}
 }
 
-// ------------------
-// MULOP -> '*' | '/'
-// ------------------
+// -----------------------------
+// MULOP -> '*' | '/' | 'modulo'
+// -----------------------------
 
 String MULOP(): {
     Token t;
 }{
-    (t = "*" | t = "/")
+    (t = "*" | t = "/" | t = "modulo")
     {return t.image;}
 }
 
-// -------------------------------
-// PREFIX -> '-' | not | length of
-// -------------------------------
+// -----------------------------------------------
+// PREFIX -> '-' | not | length of | complement of
+// -----------------------------------------------
 
 String PREFIX(): {
     Token t;
 }{
-    (t = "-" | t = "not" | t = "length" "of")
+    (t = "-" | t = "not" | t = "length" "of" | t = "complement" "of")
     {return t.image;}
 }
