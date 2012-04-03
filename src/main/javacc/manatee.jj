@@ -369,10 +369,10 @@ Statement SIMPLESTMT(): {
 }{
     (
         "increment" e = EXP() ("by" e2 = EXP())?
-        {return new BinaryExpression(e1, "increment", e2) 
+        {return new BinaryExpression(e1, "increment", e2);} 
     |
         "decrement" e = EXP() ("by" e2 = EXP())?
-        {return new BinaryExpression(e1, "decrement", e2) 
+        {return new BinaryExpression(e1, "decrement", e2);}
     |
         "set" target = EXP() {targets.add(target);} 
         ("," target = EXP() {targets.add(target);})* "to" source = EXP()
@@ -385,7 +385,7 @@ Statement SIMPLESTMT(): {
         {return new ReturnStatement(e);}
     |
         "fail" ("with" e = EXP())?
-        {return new FailStatement(e)
+        {return new FailStatement(e);}
     |
         LOOKAHEAD(2) "do" "nothing"
         {return new DoNothingStatement();}
