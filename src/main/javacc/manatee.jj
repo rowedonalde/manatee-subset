@@ -173,7 +173,7 @@ Script SCRIPT(): {
 Statement IMPORT(): {
     Token mod = null;
 }{
-    "use module" mod = <ID> (<BR>)+
+    "use" "module" mod = <ID> (<BR>)+
     {return new Import(mod.image);}
 }
 
@@ -262,6 +262,23 @@ String TYPE(): {
         LOOKAHEAD(2) "list" {builder.append(" list");}
     )*
     {return builder.toString();}
+}
+
+// --------------------------------------------------------------
+// TYPEDEC -> (a | an) ID has ':' BR+ ((a | an) TYPE ID BR+)+ end
+// --------------------------------------------------------------
+
+Type TYPEDEC(): {
+    Token type = null;
+    Type propType = null;
+    Token propName = null;
+    List<Variable> properties = new ArrayList<Variable>();
+}{
+    ("a" | "an") type = <ID> "has" ":" (<BR>)+
+    (("a" | "an") propType = TYPE() propName = <ID>
+    {properties.add(new Variable(propName.image, propType, null, false));}
+    (<BR>)+)+ "end"
+    {return new Type(type.image, properties);}
 }
 
 // ----------------------------------

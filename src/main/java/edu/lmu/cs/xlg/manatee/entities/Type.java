@@ -37,12 +37,38 @@ public class Type extends Declaration {
 
     // The type of arrays of this type.  Created only if needed.
     private ArrayType arrayOfThisType = null;
+    
+    // Boolean switch for whether this Type is an object type.
+    // If it is an object type, isObjectType is true;
+    // by default, isObjectType is false.
+    private boolean objectType = false;
+    
+    // The list of properties this Type has if it is an object type.
+    // If the type is not an object type, properties will be null.
+    private List<Variable> properties = null;
 
     /**
      * Constructs a type with the given name.
      */
     public Type(String name) {
         super(name);
+    }
+    
+    /**
+     * Constructs an object type with the given name and property fields.
+     */
+    public Type(String name, List<Variable> properties) {
+        super(name);
+        this.objectType = true;
+        this.properties = properties;
+    }
+    
+    /**
+     * Returns whether this type is an object type.
+     */
+    
+    public boolean isObjectType() {
+        return objectType;
     }
 
     /**
@@ -51,11 +77,12 @@ public class Type extends Declaration {
     public boolean isReference() {
         return this == STRING
             || this instanceof ArrayType
-            || this == ARBITRARY;
+            || this == ARBITRARY
+            || this.objectType;
     }
 
     /**
-     * Returns whether this type is an arithmetic type.
+     * Returns whether this type is primitive
      */
     public boolean isPrimitive() {
         return this == WHOLE_NUMBER || this == NUMBER || this == CHARACTER
