@@ -26,6 +26,11 @@ Entities that need to be added:
 
 * IdentifierExpression
 * Import
+* FailStatement
+* UntilLoop
+* ModifiedStatement.ModifierType.UNLESS
+* ModifiedStatement.ModifierType.UNTIL
+    * (The previous two are constants in ModifiedStatement)
 
 Methods that need to be added:
 * 
