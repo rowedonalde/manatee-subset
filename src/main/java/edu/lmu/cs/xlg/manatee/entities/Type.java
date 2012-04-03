@@ -1,6 +1,8 @@
 package edu.lmu.cs.xlg.manatee.entities;
 
 import edu.lmu.cs.xlg.util.Log;
+import java.util.List;
+import java.util.ArrayList;
 
 /**
  * A Manatee type object.

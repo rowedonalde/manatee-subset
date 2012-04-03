@@ -10,7 +10,7 @@ Here are some of the full language features not implemented in this subset:
 
 * Modules --in grammar
 * Codepoint escapes in character and string literals
-* Object types and literals
+* Object types and literals --in grammar (+expanded Type.java for object types)
 * Streams for reading and writing --Gone
 * Increment and decrement statements --in grammar
 * Parallel assignment --in grammar
@@ -22,3 +22,10 @@ Here are some of the full language features not implemented in this subset:
 * Divides operator --in grammar
 * Bitwise complement operator --in grammar
 
+Entities that need to be added:
+
+* IdentifierExpression
+* Import
+
+Methods that need to be added:
+* 
