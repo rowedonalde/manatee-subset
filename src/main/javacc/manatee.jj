@@ -46,11 +46,14 @@ SKIP: {
 // Reserved Words and symbols
 
 TOKEN: {
-    "my" | "is" | "always" | "truth" | "value" | "character" | "whole" | "number"
+    "my" | "is" | "always" | "truth" | "value" | "character" | "whole" | "number" 
     | "string" | "list" | "to" | "get" | "end" | "a" | "an" | "some" | "the" | "and"
     | "read" | "write" | "set" | "exit" | "return" | "do" | "nothing"
     | "if" | "while" | "else" | "loop" | "times" | "for" | "each" | "by" | "in" | "or"
-    | "yes" | "no" | "not" | "length" | "of"
+    | "yes" | "no" | "not" | "length" | "of" | "has" | "seconds" | "second"
+    | "increment" | "decrement" | "fail" | "with" | "unless" | "until" | "try"
+    | "use" | "module" | "after" | "modulo" | "recover" | "divides" | "complement"
+    | "bit" | "xor" | "bit xor" | "bit and" | "bit or"
     | ":" | "," | "+" | "-" | "*" | "/" | "<<" | ">>"
     | "<" | "<=" | "=" | "≠" | ">=" | ">" | "(" | ")" | "[" | "]"
 |
