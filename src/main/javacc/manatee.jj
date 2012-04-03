@@ -333,7 +333,7 @@ Block BLOCK(): {
 // ----------------------------
 // SIMPLESTMT -> increment EXP (by EXP)?
 //            |  decrement EXP (by EXP)?
-//            |  set EXP to EXP
+//            |  set EXP (',' EXP)* to EXP
 //            |  exit the loop
 //            |  return EXP?
 //            |  fail with EXP?
@@ -348,6 +348,7 @@ Statement SIMPLESTMT(): {
     Expression source;
     Expression target;
     List<Expression> args = new ArrayList<Expression>();
+    List<Expression> targets = new ArrayList<Expression>();
 }{
     (
         "increment" e = EXP() ("by" e2 = EXP())?
@@ -356,8 +357,9 @@ Statement SIMPLESTMT(): {
         "decrement" e = EXP() ("by" e2 = EXP())?
         {return new BinaryExpression(e1, "decrement", e2) 
     |
-        "set" target = EXP() "to" source = EXP()
-        {return new AssignmentStatement(target, source);}
+        "set" target = EXP() {targets.add(target);} 
+        ("," target = EXP() {targets.add(target);})* "to" source = EXP()
+        {return new AssignmentStatement(targets, source);}
     |
         "exit" "the" "loop"
         {return new ExitStatement();}

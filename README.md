@@ -13,7 +13,7 @@ Here are some of the full language features not implemented in this subset:
 * Object types and literals
 * Streams for reading and writing --Gone
 * Increment and decrement statements --in grammar
-* Parallel assignment
+* Parallel assignment --in grammar
 * Exceptions --in grammar
 * Timers --in grammar
 * `unless` and `until` modifiers --in grammar
