@@ -166,6 +166,17 @@ Script SCRIPT(): {
     {return new Script(statements);}
 }
 
+// ---------------------------
+// IMPORT -> use module ID BR+
+// ---------------------------
+
+Statement IMPORT(): {
+    Token mod = null;
+}{
+    "use module" mod = <ID> (<BR>)+
+    {return new Import(mod.image);}
+}
+
 // -----------------------------------------------------
 // STMT -> (DEC | SIMPLESTMT MODIFER? | COMPLEXSTMT) BR+
 // -----------------------------------------------------

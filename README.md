@@ -8,7 +8,7 @@ Manatee is described at http://cs.lmu.edu/~ray/notes/manatee.
 
 Here are some of the full language features not implemented in this subset:
 
-* Modules
+* Modules --in grammar
 * Codepoint escapes in character and string literals
 * Object types and literals
 * Streams for reading and writing --Gone
