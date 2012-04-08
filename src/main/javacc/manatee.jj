@@ -684,7 +684,7 @@ Expression EXP10(): {
 // -------------------------
 // EXP11 -> LITERAL
 //       |  ID
-//       |  ID '{' ID ':' EXP (',' ID ':' EXP)* '}' //probably not?
+//       |  ID '{' ID ':' EXP (',' ID ':' EXP)* '}'
 //       |  '[' EXPLIST? ']'
 //       |  '(' EXP ')'
 // -------------------------
