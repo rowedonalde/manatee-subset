@@ -7,5 +7,13 @@ import edu.lmu.cs.xlg.util.Log;
  */
 
 public class Import extends Statement {
-
+    private String ModuleName;
+    
+    public Import(String mod) {
+        this.ModuleName = mod;
+    }
+    
+    public String getModuleName() {
+        return this.ModuleName;
+    }
 }
