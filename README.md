@@ -24,9 +24,9 @@ Here are some of the full language features not implemented in this subset:
 
 Entities that need to be added:
 
-* IdentifierExpression
-* Import
-* FailStatement
+* IdentifierExpression --Added constructor and getters
+* Import --Added constructor and getters
+* FailStatement --Added constructor and getters
 * UntilLoop
 * ModifiedStatement.ModifierType.UNLESS
 * ModifiedStatement.ModifierType.UNTIL
