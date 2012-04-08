@@ -30,7 +30,7 @@ Entities that need to be added:
 * UntilLoop --Added constructor and getters
 * ModifiedStatement.ModifierType.UNLESS
 * ModifiedStatement.ModifierType.UNTIL
-    * (The previous two are constants in ModifiedStatement)
+    * (The previous two are members of enum ModifierType in ModifiedStatement)
 
 Methods that need to be added:
 * 
