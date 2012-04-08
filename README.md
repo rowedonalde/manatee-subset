@@ -27,7 +27,7 @@ Entities that need to be added:
 * IdentifierExpression --Added constructor and getters
 * Import --Added constructor and getters
 * FailStatement --Added constructor and getters
-* UntilLoop
+* UntilLoop --Added constructor and getters
 * ModifiedStatement.ModifierType.UNLESS
 * ModifiedStatement.ModifierType.UNTIL
     * (The previous two are constants in ModifiedStatement)
