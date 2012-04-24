@@ -372,10 +372,10 @@ Statement SIMPLESTMT(): {
 }{
     (
         "increment" e = EXP() ("by" e2 = EXP())?
-        {return new BinaryExpression(e1, "increment", e2);} 
+        {return new IncrementStatement(e, e2);}
     |
         "decrement" e = EXP() ("by" e2 = EXP())?
-        {return new BinaryExpression(e1, "decrement", e2);}
+        {return new IncrementStatement(e, e2, true);}
     |
         "set" target = EXP() {targets.add(target);} 
         ("," target = EXP() {targets.add(target);})* "to" source = EXP()
