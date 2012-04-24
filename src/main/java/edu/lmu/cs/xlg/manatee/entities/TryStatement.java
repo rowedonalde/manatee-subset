@@ -13,7 +13,7 @@ public class TryStatement extends Statement {
     
     public TryStatement(Block tryBlock, Block recoverBlock) {
         this.tryBlock = tryBlock;
-        this.recoverBlock = recoverblock;
+        this.recoverBlock = recoverBlock;
     }
     
     public Block getTryBlock() {
