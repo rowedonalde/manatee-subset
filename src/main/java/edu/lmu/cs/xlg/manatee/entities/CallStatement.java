@@ -9,10 +9,22 @@ public class CallStatement extends Statement {
     private String procedureName;
     private List<Expression> args;
     private Procedure procedure;
+    private Expression waitTime;
 
     public CallStatement(String procedureName, List<Expression> args) {
         this.procedureName = procedureName;
         this.args = args;
+    }
+    
+    /**
+     * This version of the constructor takes an Expression for the time
+     * to wait before calling the procedure.
+     */
+    public CallStatement(String procedureName, List<Expression> args,
+                         Expression waitTime) {
+        this.procedureName = procedureName;
+        this.args = args;
+        this.waitTime = waitTime;
     }
 
     public String getProcedureName() {
@@ -25,6 +37,10 @@ public class CallStatement extends Statement {
 
     public Procedure getProcedure() {
         return procedure;
+    }
+    
+    public Expression get WaitTime() {
+        return waitTime;
     }
 
     @Override
