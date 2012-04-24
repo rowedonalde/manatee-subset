@@ -383,7 +383,7 @@ Statement SIMPLESTMT(): {
             if (targets.size() == 1) {
                 return new AssignmentStatement(target, source);
             } else {
-                return new AssignmentStatement(targets, source);
+                return new ParallelAssignmentStatement(targets, source);
             }
         }
     |
