@@ -48,6 +48,9 @@ public class Type extends Declaration {
     // The list of properties this Type has if it is an object type.
     // If the type is not an object type, properties will be null.
     private List<Variable> properties = null;
+    
+    //Symbol table to hold properties if this is an object type:
+    private SymbolTable table = new SymbolTable(null);
 
     /**
      * Constructs a type with the given name.
@@ -125,12 +128,20 @@ public class Type extends Declaration {
     }
 
     /**
-     * If it's a new type, add it to the symbol table
+     * If it's a new type, add it to the symbol table. Also make sure that
+     * all property declarations are legal and locally available.
      */
     @Override
     public void analyze(Log log, SymbolTable table, Subroutine owner, boolean inLoop) {
         if (objectType) {
             table.insert(this, log);
+            
+            //Check the property declarations against the internal table:
+            for (int i = 0; i < this.properties.size(); i++) {
+                Variable current = this.properties.get(i);
+                current.analyze(log, this.table, owner, inLoop);
+                this.table.insert(current, log);
+            }
         }
     }
 
