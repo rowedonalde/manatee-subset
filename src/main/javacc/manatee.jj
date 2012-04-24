@@ -273,13 +273,13 @@ String TYPE(): {
 
 Type TYPEDEC(): {
     Token type = null;
-    Type propType = null;
+    Token propType = null;
     Token propName = null;
     List<Variable> properties = new ArrayList<Variable>();
 }{
     ("a" | "an") type = <ID> "has" ":" (<BR>)+
-    (("a" | "an") propType = TYPE() propName = <ID>
-    {properties.add(new Variable(propName.image, propType, null, false));}
+    (("a" | "an") propType = <ID> propName = <ID>
+    {properties.add(new Variable(propName.image, propType.image, null, false));}
     (<BR>)+)+ "end"
     {return new Type(type.image, properties);}
 }
