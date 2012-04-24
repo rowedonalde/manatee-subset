@@ -6,7 +6,7 @@ import edu.lmu.cs.xlg.util.Log;
  * An increment statement. The converse "decrement" statement is also
  * covered in this class.
  */
-public class IncrementStatement extends AssignmentStatement {
+public class IncrementStatement extends Statement {
     //This switch is true when this IncrementStatement is actually a decrement:
     private boolean isDecrementStatement = false;
     
@@ -57,5 +57,16 @@ public class IncrementStatement extends AssignmentStatement {
      */
     public boolean isDecrementStatement() {
         return this.isDecrementStatement;
+    }
+    
+    @Override
+    public void analyze(Log log, SymbolTable table, Subroutine owner, boolean inLoop) {
+        //Check to make sure that increment is arithmetic and that
+        //target is assignable:
+        this.increment.assertArithmetic("increment", log);
+        
+        if (!this.target.isWritableLValue()) {
+            log.error("non.writable.in.assignment.statement");
+        }
     }
 }
