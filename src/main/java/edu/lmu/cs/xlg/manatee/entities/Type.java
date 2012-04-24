@@ -125,11 +125,13 @@ public class Type extends Declaration {
     }
 
     /**
-     * A default implementation that does nothing, since most type subclasses need no analysis.
+     * If it's a new type, add it to the symbol table
      */
     @Override
     public void analyze(Log log, SymbolTable table, Subroutine owner, boolean inLoop) {
-        // Intentionally empty.
+        if (objectType) {
+            table.insert(this, log);
+        }
     }
 
     @Override

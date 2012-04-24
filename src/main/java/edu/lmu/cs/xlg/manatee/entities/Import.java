@@ -16,4 +16,9 @@ public class Import extends Statement {
     public String getModuleName() {
         return this.ModuleName;
     }
+    
+    @Override
+    public void analyze(Log log, SymbolTable table, Subroutine owner, boolean inLoop) {
+        //Make sure the file exists? TODO
+    }
 }

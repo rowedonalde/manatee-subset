@@ -32,5 +32,25 @@ Entities that need to be added:
 * ModifiedStatement.ModifierType.UNTIL
     * (The previous two are members of enum ModifierType in ModifiedStatement)
 
-Methods that need to be added:
-* 
+Resubmit for Homework2:
+* IncrementStatement.java Entity
+* CallStatement Entity (for wait time addition)
+* TryStatement.java
+* manatee.jj
+    * Parallel Assignment
+    * Increment/Decrement
+    * TYPEDEC (<ID> where TYPE() used to be)
+
+Homework3:
+analyze methods that need to be filled out/updated:
+
+* Type (for object types)
+* IncrementStatement --done
+* CallStatement (for wait time)
+* ParallelAssignmentStatement --done
+* TryStatement --done
+* FailStatement
+* UntilLoop --done
+* Import
+
+
