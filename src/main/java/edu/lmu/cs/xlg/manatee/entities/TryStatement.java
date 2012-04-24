@@ -26,7 +26,7 @@ public class TryStatement extends Statement {
     
     @Override
     public void analyze(Log log, SymbolTable table, Subroutine owner, boolean inLoop) {
-        //A tryStatement is really just two Blocks put together, so this
-        //is intentionally empty
+        this.tryBlock.analyze(log, table, owner, inLoop);
+        this.recoverBlock.analyze(log, table, owner, inLoop);
     }
 }
