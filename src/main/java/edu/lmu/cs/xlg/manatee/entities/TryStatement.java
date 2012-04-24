@@ -24,5 +24,9 @@ public class TryStatement extends Statement {
         return this.recoverBlock;
     }
     
-    
+    @Override
+    public void analyze(Log log, SymbolTable table, Subroutine owner, boolean inLoop) {
+        //A tryStatement is really just two Blocks put together, so this
+        //is intentionally empty
+    }
 }
