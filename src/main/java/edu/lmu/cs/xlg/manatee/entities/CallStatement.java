@@ -39,7 +39,7 @@ public class CallStatement extends Statement {
         return procedure;
     }
     
-    public Expression get WaitTime() {
+    public Expression getWaitTime() {
         return waitTime;
     }
 
