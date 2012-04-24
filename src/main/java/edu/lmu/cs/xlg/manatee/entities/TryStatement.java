@@ -7,5 +7,22 @@ import edu.lmu.cs.xlg.util.Log;
  */
 
 public class TryStatement extends Statement {
-
+    
+    private Block tryBlock;
+    private Block recoverBlock;
+    
+    public TryStatement(Block tryBlock, Block recoverBlock) {
+        this.tryBlock = tryBlock;
+        this.recoverBlock = recoverblock;
+    }
+    
+    public Block getTryBlock() {
+        return this.tryBlock;
+    }
+    
+    public Block getRecoverBlock() {
+        return this.recoverBlock;
+    }
+    
+    
 }
