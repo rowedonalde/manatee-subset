@@ -44,12 +44,12 @@ Resubmit for Homework2:
 Homework3:
 analyze methods that need to be filled out/updated:
 
-* Type (for object types)
+* Type (for object types) --done
 * IncrementStatement --done
-* CallStatement (for wait time)
+* CallStatement (for wait time) --done
 * ParallelAssignmentStatement --done
 * TryStatement --done
-* FailStatement
+* FailStatement --done (analyzes expression at least)
 * UntilLoop --done
 * Import
 
