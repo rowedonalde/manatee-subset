@@ -62,5 +62,8 @@ public class CallStatement extends Statement {
 
         // Now check all the arguments against all the parameters.
         procedure.assertCanBeCalledWith(args, log);
+        
+        //Check whether the waitTime is legally arithmetic
+        this.waitTime.assertArithmetic("wait time expression", log);
     }
 }
