@@ -17,4 +17,9 @@ public class FailStatement extends Statement {
     public Expression getExpression() {
         return expression;
     }
+    
+    @Override
+    public void analyze(Log log, SymbolTable table, Subroutine owner, boolean inLoop) {
+        this.expression.analyze(log, table, owner, inLoop);
+    }
 }
