@@ -31,6 +31,7 @@ public class ParallelAssignmentStatement extends Statement {
         //Expressions in each of targets and sources:
         if (targets.size() != sources.size()) {
             log.error("unbalanced.parallel.assignment");
+            return;
         }
         
         //For each Expression in targets, just build a new vanilla
