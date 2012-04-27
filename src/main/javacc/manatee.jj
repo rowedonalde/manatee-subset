@@ -355,7 +355,7 @@ Block BLOCK(): {
 //            |  read EXP
 //            |  increment EXP (by EXP)?
 //            |  decrement EXP (by EXP)?
-//            |  set EXP (',' EXP)* to EXP
+//            |  set EXP (',' EXP)* to EXP (',' EXP)*
 //            |  exit the loop
 //            |  return EXP?
 //            |  fail with EXP?
@@ -371,6 +371,7 @@ Statement SIMPLESTMT(): {
     Expression target;
     List<Expression> args = new ArrayList<Expression>();
     List<Expression> targets = new ArrayList<Expression>();
+    List<Expression> sources = new ArrayList<Expression>();
 }{
     (
         "write" e = EXP()
@@ -386,12 +387,14 @@ Statement SIMPLESTMT(): {
         {return new IncrementStatement(e, e2, true);}
     |
         "set" target = EXP() {targets.add(target);} 
-        ("," target = EXP() {targets.add(target);})* "to" source = EXP()
+        ("," target = EXP() {targets.add(target);})*
+        "to" source = EXP() {sources.add(source);}
+        ("," source = EXP() {sources.add(source);})*
         {
             if (targets.size() == 1) {
                 return new AssignmentStatement(target, source);
             } else {
-                return new ParallelAssignmentStatement(targets, source);
+                return new ParallelAssignmentStatement(targets, sources);
             }
         }
     |
