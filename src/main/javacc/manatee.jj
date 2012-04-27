@@ -351,7 +351,9 @@ Block BLOCK(): {
 }
 
 // ----------------------------
-// SIMPLESTMT -> increment EXP (by EXP)?
+// SIMPLESTMT -> write EXP
+//            |  read EXP
+//            |  increment EXP (by EXP)?
 //            |  decrement EXP (by EXP)?
 //            |  set EXP (',' EXP)* to EXP
 //            |  exit the loop
@@ -371,6 +373,12 @@ Statement SIMPLESTMT(): {
     List<Expression> targets = new ArrayList<Expression>();
 }{
     (
+        "write" e = EXP()
+        {return new WriteStatement(e);}
+    |
+        "read" e = EXP()
+        {return new ReadStatement(e);}
+    |
         "increment" e = EXP() ("by" e2 = EXP())?
         {return new IncrementStatement(e, e2);}
     |
