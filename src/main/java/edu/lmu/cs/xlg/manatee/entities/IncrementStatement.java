@@ -61,8 +61,11 @@ public class IncrementStatement extends Statement {
     
     @Override
     public void analyze(Log log, SymbolTable table, Subroutine owner, boolean inLoop) {
-        //Check to make sure that increment is arithmetic and that
+        this.target.analyze(log, table, owner, inLoop);
+        this.increment.analyze(log, table, owner, inLoop);
+        //Check to make sure that args are arithmetic and that
         //target is assignable:
+        this.target.assertArithmetic("increment", log);
         this.increment.assertArithmetic("increment", log);
         
         if (!this.target.isWritableLValue()) {
