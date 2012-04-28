@@ -144,9 +144,4 @@ public class Type extends Declaration {
             }
         }
     }
-
-    @Override
-    public String toString() {
-        return getName();
-    }
 }

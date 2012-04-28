@@ -410,8 +410,13 @@ Statement SIMPLESTMT(): {
         LOOKAHEAD(2) "do" "nothing"
         {return new DoNothingStatement();}
     |
+<<<<<<< HEAD
         "do" t = <ID> (args = EXPLIST())? ("after" e = EXP() ("second" | "seconds"))?
         {return new CallStatement(t.image, args, e);}
+=======
+        "do" t = <ID> (args = EXPLIST())?
+        {return new CallStatement(t.image, args);}
+>>>>>>> upstream/master
     )
 }
 
