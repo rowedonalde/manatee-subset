@@ -15,3 +15,13 @@ end
 
 --Parallel Assignment:
 set x, z to 4, 5.5
+
+--Procedure Declaration:
+to writeName string name:
+  write name
+end
+
+--Function Declaration:
+to get a number double of number x:
+  return x * 2
+end
