@@ -719,7 +719,6 @@ Expression EXP11(): {
         e = LITERAL()
         {return e;}
     |
-        //LOOKAHEAD(2) t = <ID>
         LOOKAHEAD(2) t = <ID>
         {return new IdentifierExpression(t.image);}
     |
