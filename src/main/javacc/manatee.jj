@@ -393,7 +393,7 @@ Statement SIMPLESTMT(): {
         "to" source = EXP() {sources.add(source);}
         ("," source = EXP() {sources.add(source);})*
         {
-            if (targets.size() == 1) {
+            if (targets.size() == 1 && sources.size() == 1) {
                 return new AssignmentStatement(target, source);
             } else {
                 return new ParallelAssignmentStatement(targets, sources);
