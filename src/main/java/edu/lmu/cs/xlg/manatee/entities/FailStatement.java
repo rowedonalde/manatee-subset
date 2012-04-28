@@ -20,6 +20,8 @@ public class FailStatement extends Statement {
     
     @Override
     public void analyze(Log log, SymbolTable table, Subroutine owner, boolean inLoop) {
-        this.expression.analyze(log, table, owner, inLoop);
+        if (this.expression != null) {
+            this.expression.analyze(log, table, owner, inLoop);
+        }
     }
 }
