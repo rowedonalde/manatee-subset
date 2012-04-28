@@ -65,6 +65,7 @@ public class CallStatement extends Statement {
         
         //Check whether the waitTime is legally arithmetic
         if (this.waitTime != null) {
+            this.waitTime.analyze(log, table, owner, inLoop);
             this.waitTime.assertArithmetic("wait time expression", log);
         }
     }
