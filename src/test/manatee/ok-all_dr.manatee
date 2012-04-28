@@ -2,7 +2,10 @@
 
 --Simple Assignment:
 my x is 3
+my c is 2
 my y is always "hello"
+my hello is a string
+set hello to "hello"
 my z is a number
 
 --Type Declaration:
@@ -21,7 +24,86 @@ to writeName string name:
   write name
 end
 
+to sayHello:
+  write "Hello"
+end
+
 --Function Declaration:
 to get a number double of number x:
   return x * 2
 end
+
+--------------------
+--Simple statements:
+--------------------
+
+--read/write
+write "hello world"
+write y
+write 2
+write 2 + 2
+write x
+read hello
+read x
+
+--increment/decrement
+increment x by 1
+increment z by 1.0
+decrement x by 1
+decrement x by z
+
+do nothing
+
+--do after waitTime
+do writeName "Manny" after 1 second
+do sayHello after 3 seconds
+--do double x after x seconds --so, functions have to be wrapped?
+
+--Throw exception
+fail
+fail with "Oops"
+fail with y
+fail with x
+
+--Modifiers:
+write "hello world" if x > 1
+increment x by 1 unless c < 0
+decrement x by c while x >= 0
+increment x by 0.1 until x > 0
+-----------------------
+--End Simple Statements
+-----------------------
+
+--------------
+--Conditional:
+--------------
+if x > 1:
+  increment x by 1
+  write x
+end
+
+if x > 1:
+  increment x by c
+  write x
+else:
+  write c
+end
+
+if x > 1:
+  increment x by 1
+  write x
+else if x < -0:
+  write "negative"
+end
+
+if x > 1:
+  increment x by 1
+  write x
+else if yes:
+  write "True!"
+else:
+  write c
+end
+-----------------
+--End Conditional
+-----------------
