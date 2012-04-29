@@ -53,7 +53,7 @@ TOKEN: {
     | "yes" | "no" | "not" | "length" | "of" | "has" | "seconds" | "second"
     | "increment" | "decrement" | "fail" | "with" | "unless" | "until" | "try"
     | "use" | "module" | "after" | "modulo" | "recover" | "divides" | "complement"
-    | "bit" | "xor" | "bit xor" | "bit and" | "bit or"
+    | "bit" | "xor"
     | ":" | "," | "+" | "-" | "*" | "/" | "<<" | ">>"
     | "<" | "<=" | "=" | "≠" | ">=" | ">" | "(" | ")" | "[" | "]"
 |
