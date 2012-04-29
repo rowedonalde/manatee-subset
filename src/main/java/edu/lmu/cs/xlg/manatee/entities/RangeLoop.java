@@ -13,7 +13,7 @@ public class RangeLoop extends Statement {
     private Expression high;
     private Expression step;
     private Block body;
-    private isDownToLoop;
+    private boolean isDownToLoop;
 
     public RangeLoop(String iteratorName, Expression low, Expression high, Expression step,
             Block body, boolean isDownToLoop) {
