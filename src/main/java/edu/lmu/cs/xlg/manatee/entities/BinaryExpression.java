@@ -86,6 +86,29 @@ public class BinaryExpression extends Expression {
             right.assertBoolean(op, log);
             type = Type.TRUTH_VALUE;
 
+        // char in string
+        // t in t list
+        } else if (op.matches("in")) {
+            right.assertArrayOrString("in", log);
+            if (right.getType() == Type.STRING) {
+                left.assertChar("in", log);
+            } else {
+                assert(left.getType().canBeAssignedTo(
+                    ArrayType.class.cast(right.getType()).getBaseType()));
+            }
+            type = Type.TRUTH_VALUE;
+
+        // ref is ref
+        // ref is not ref
+        } else if (op.matches("is") || op.matches("is not")) {
+            if (!left.getType().isReference() && !right.getType().isReference()) {
+                log.error("non.reference", op);
+            }
+            if (left.getType() != right.getType()) {
+                log.error("type.mismatch", op);
+            }
+            type = Type.TRUTH_VALUE;
+
         } else {
             throw new RuntimeException("Internal error in binary expression analysis");
         }

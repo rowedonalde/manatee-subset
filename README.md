@@ -1,8 +1,10 @@
 
 This is a compiler for a subset of the Manatee Programming Language.
 
-When complete, students will be able to fork this repository to build compilers
-and interpreters for the full language.
+The idea is for students to fork this repository to build their own 
+compilers and interpreters for the full language.  After all, it can
+be argued that extending a compiler for a small language has more
+pedagogical value that having students implement everything from scratch.
 
 Manatee is described at http://cs.lmu.edu/~ray/notes/manatee.
 
@@ -52,5 +54,4 @@ analyze methods that need to be filled out/updated:
 * FailStatement --done (analyzes expression at least)
 * UntilLoop --done
 * Import
-
 

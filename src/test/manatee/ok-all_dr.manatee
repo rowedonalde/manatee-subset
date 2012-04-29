@@ -2,11 +2,13 @@
 
 --Simple Assignment:
 my x is 3
-my c is 2
+my c is (2)
 my y is always "hello"
 my hello is a string
 set hello to "hello"
 my z is a number
+my apples5 is [0, 2, 4, 1, 3]
+my q3 is [0, 1, 2]
 
 --Type Declaration:
 an animal has:
@@ -107,3 +109,63 @@ end
 -----------------
 --End Conditional
 -----------------
+
+------
+--Loop
+------
+loop:
+  write "loop"
+end
+
+loop:
+  do nothing
+end
+
+loop:
+  write "Exiting loop"
+  exit the loop
+end
+
+loop 3 times:
+  set x to 0
+end
+
+loop x times:
+  set x to 0
+end
+
+while yes:
+  do nothing
+end
+
+while x >= 2:
+  decrement x by 3
+end
+
+until no:
+  write "Manatee"
+end
+
+until x < 1.31:
+  write x
+end
+
+for each num in apples5:
+  write num
+end
+
+for each x in q3:
+  set x to x + 1
+  write x
+end
+
+for each i in x to c:
+  write i
+end
+
+for each i in x down to c:
+  write (c - x) * 2
+end
+----------
+--End Loop
+----------

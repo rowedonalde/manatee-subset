@@ -48,7 +48,7 @@ SKIP: {
 TOKEN: {
     "my" | "is" | "always" | "truth" | "value" | "character" | "whole" | "number" 
     | "string" | "list" | "to" | "get" | "end" | "a" | "an" | "some" | "the" | "and"
-    | "read" | "write" | "set" | "exit" | "return" | "do" | "nothing"
+    | "read" | "write" | "set" | "exit" | "return" | "do" | "nothing" | "down"
     | "if" | "while" | "else" | "loop" | "times" | "for" | "each" | "by" | "in" | "or"
     | "yes" | "no" | "not" | "length" | "of" | "has" | "seconds" | "second"
     | "increment" | "decrement" | "fail" | "with" | "unless" | "until" | "try"
@@ -480,12 +480,12 @@ Statement CONDITIONAL(): {
     {return new ConditionalStatement(arms, elseBlock);}
 }
 
-// -----------------------------------------------------
+// -----------------------------------------------------------
 // LOOP        -> LOOPCONTROL BLOCK end
 // LOOPCONTROL -> loop (EXP times)?
 //             |  (while | unless) EXP
-//             |  for each ID in EXP (to EXP (by EXP)?)?
-// -----------------------------------------------------
+//             |  for each ID in EXP (down? to EXP (by EXP)?)?
+// -----------------------------------------------------------
 
 Statement LOOP(): {
     Token t = null;
@@ -493,6 +493,7 @@ Statement LOOP(): {
     Expression e2 = null;
     Expression e3 = null;
     Block b;
+    boolean isDownToLoop = false;
 }{
     (
         "loop" (e = EXP() "times")? b = BLOCK() "end"
@@ -506,6 +507,7 @@ Statement LOOP(): {
     |
         "for" "each" t = <ID> "in" e = EXP()
         (
+            ("down" {isDownToLoop = true;})?
             "to" e2 = EXP() ("by" e3 = EXP())?
         )?
         b = BLOCK() "end"
@@ -513,7 +515,7 @@ Statement LOOP(): {
             if (e2 == null) {
                 return new CollectionLoop(t.image, e, b);
             } else {
-                return new RangeLoop(t.image, e, e2, e3, b);
+                return new RangeLoop(t.image, e, e2, e3, b, isDownToLoop);
             }
         }
     )

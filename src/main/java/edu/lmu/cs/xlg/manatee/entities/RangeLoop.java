@@ -13,14 +13,16 @@ public class RangeLoop extends Statement {
     private Expression high;
     private Expression step;
     private Block body;
+    private isDownToLoop;
 
     public RangeLoop(String iteratorName, Expression low, Expression high, Expression step,
-            Block body) {
+            Block body, boolean isDownToLoop) {
         this.iteratorName = iteratorName;
         this.low = low;
         this.high = high;
         this.step = step;
         this.body = body;
+        this.isDownToLoop = isDownToLoop;
     }
 
     public String getIteratorName() {
@@ -45,6 +47,10 @@ public class RangeLoop extends Statement {
 
     public Block getBody() {
         return body;
+    }
+    
+    public boolean isDownToLoop() {
+        return this.isDownToLoop();
     }
 
     @Override
