@@ -48,8 +48,10 @@ public class ObjectLiteral extends Expression {
         this.propertyTable = this.type.getPropertyTable();
         
         //Make sure all the listed properties are actually in this type:
-        for (String i : this.propertyNames) {
-            Variable current = (Variable)this.propertyTable.lookup(i, log);
+        //for (String i : this.propertyNames) {
+        for (int i = 0; i < this.propertyNames.size(); i++) {
+            String currentName = this.propertyNames.get(i);
+            Variable current = (Variable)this.propertyTable.lookup(currentName, log);
             
             //If this property doesn't exist, quit:
             if (current == Variable.ARBITRARY) {
@@ -58,7 +60,13 @@ public class ObjectLiteral extends Expression {
             
             //TODO
             //Make sure the current property can take the rightside expression:
-            //Type rightType = 
+            Expression rightSide = this.propertyValues.get(i);
+            rightSide.analyze(log, table, owner, inLoop);
+            Type rightSideType = rightSide.getType();
+            Expression currentLeftSideExpression = new IdentifierExpression(currentName);
+            currentLeftSideExpression.analyze(log, this.propertyTable, owner, inLoop);
+            currentLeftSideExpression.assertAssignableTo(rightSideType, log,
+                                                         "parameter.type.mismatch");
         }
     }
 }
