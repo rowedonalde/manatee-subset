@@ -55,7 +55,7 @@ TOKEN: {
     | "use" | "module" | "after" | "modulo" | "recover" | "divides" | "complement"
     | "bit" | "xor"
     | ":" | "," | "+" | "-" | "*" | "/" | "<<" | ">>"
-    | "<" | "<=" | "=" | "≠" | ">=" | ">" | "(" | ")" | "[" | "]"
+    | "<" | "<=" | "=" | "≠" | ">=" | ">" | "(" | ")" | "[" | "]" | "{" | "}"
 |
     < BR: "\n" | "\r" | "\r\n" >
 |
@@ -723,14 +723,14 @@ Expression EXP11(): {
         e = LITERAL()
         {return e;}
     |
-        LOOKAHEAD(2) t = <ID>
-        {return new IdentifierExpression(t.image);}
-    |
         LOOKAHEAD(2) t = <ID> "{" key = <ID> {dictionaryKeys.add(key.image);} ":"
         valueExpression = EXP() {expressions.add(valueExpression);}
         ("," key = <ID> {dictionaryKeys.add(key.image);} ":"
         valueExpression = EXP() {expressions.add(valueExpression);})* "}"
-        {return new IdentifierExpression(t.image, dictionaryKeys, expressions);}
+        {return new ObjectLiteral(t.image, dictionaryKeys, expressions);}
+    |
+        LOOKAHEAD(2) t = <ID>
+        {return new IdentifierExpression(t.image);}
     |
         "[" (expressions = EXPLIST())? "]"
         {return new ArrayConstructor(expressions);}

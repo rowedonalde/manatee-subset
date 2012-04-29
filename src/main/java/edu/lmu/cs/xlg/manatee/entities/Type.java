@@ -50,7 +50,7 @@ public class Type extends Declaration {
     private List<Variable> properties = null;
     
     //Symbol table to hold properties if this is an object type:
-    private SymbolTable table = new SymbolTable(null);
+    private SymbolTable propertyTable = new SymbolTable(null);
 
     /**
      * Constructs a type with the given name.
@@ -126,6 +126,10 @@ public class Type extends Declaration {
                 ArrayType.class.cast(this).getBaseType().canBeAssignedTo(
                         ArrayType.class.cast(that).getBaseType());
     }
+    
+    public SymbolTable getPropertyTable() {
+        return this.propertyTable;
+    }
 
     /**
      * If it's a new type, add it to the symbol table. Also make sure that
@@ -139,8 +143,8 @@ public class Type extends Declaration {
             //Check the property declarations against the internal table:
             for (int i = 0; i < this.properties.size(); i++) {
                 Variable current = this.properties.get(i);
-                current.analyze(log, this.table, owner, inLoop);
-                this.table.insert(current, log);
+                current.analyze(log, this.propertyTable, owner, inLoop);
+                this.propertyTable.insert(current, log);
             }
         }
     }
