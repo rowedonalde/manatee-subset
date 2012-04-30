@@ -55,7 +55,8 @@ TOKEN: {
     | "use" | "module" | "after" | "modulo" | "recover" | "divides" | "complement"
     | "bit" | "xor"
     | ":" | "," | "+" | "-" | "*" | "/" | "<<" | ">>"
-    | "<" | "<=" | "=" | "≠" | ">=" | ">" | "(" | ")" | "[" | "]" | "{" | "}"
+    | "<" | "<=" | "=" | "≠" | ">=" | ">"
+    | "(" | ")" | "[" | "]" | "{" | "}" | "."
 |
     < BR: "\n" | "\r" | "\r\n" >
 |
@@ -690,6 +691,7 @@ Expression EXP10(): {
     Expression e;
     List<Expression> args = new ArrayList<Expression>();
     Expression subscript;
+    Token property;
 }{
     e = EXP11()
     (
@@ -698,6 +700,9 @@ Expression EXP10(): {
     |
         "[" subscript = EXP() "]"
         {e = new SubscriptExpression(e, subscript);}
+    |
+        "." property = <ID>
+        {e = new PropertyExpression(e, property.image);}
     )*
     {return e;}
 }
@@ -708,6 +713,7 @@ Expression EXP10(): {
 //       |  ID '{' ID ':' EXP (',' ID ':' EXP)* '}'
 //       |  '[' EXPLIST? ']'
 //       |  '(' EXP ')'
+//       |  '.' ID
 // -------------------------
 
 Expression EXP11(): {

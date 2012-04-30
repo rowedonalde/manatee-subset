@@ -12,7 +12,6 @@ public class ObjectLiteral extends Expression {
     private List<String> propertyNames;
     private List<Expression> propertyValues;
     private String typeName;
-    private Type type;
     private SymbolTable propertyTable;
     
     public ObjectLiteral(String typeName, List<String> propertyNames,
@@ -58,7 +57,6 @@ public class ObjectLiteral extends Expression {
                 return;
             }
             
-            //TODO
             //Make sure the current property can take the rightside expression:
             Expression rightSide = this.propertyValues.get(i);
             rightSide.analyze(log, table, owner, inLoop);
