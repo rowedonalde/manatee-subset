@@ -19,7 +19,17 @@ an animal has:
   a number averageWeight
 end
 
+my f is a whole number
+set f to 4
+my col is a string
+set col to "brown"
+my isV is a truth value
+set isV to yes
+my ave is a number
+set ave to 24.5
+
 my dog is animal {feet: 4, color: "brown", isVertebrate:yes, averageWeight: 24.5}
+my dog2 is animal {feet: f, color: col, isVertebrate: isV, averageWeight: ave}
 
 
 --Parallel Assignment:
@@ -202,6 +212,7 @@ end
 -------------
 write yes or no
 my yn is a truth value
+set yn to not yes
 set yn to yes and no
 set yn to no or yes and no
 set x to 3 bit or 2
@@ -209,3 +220,10 @@ set x to x bit xor x
 do nothing if 1 ≠ 2
 set x to -3
 write [1, 2, 3][0]
+write length of "hi"
+set x to 3 + length of col
+write x bit and complement of (x + 1)
+write x bit and complement of x + 1
+set z to dog.averageWeight
+set dog.color to "yellow"
+--set x to x x
