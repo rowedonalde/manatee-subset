@@ -10,6 +10,12 @@ my z is a number
 my apples5 is [0, 2, 4, 1, 3]
 my q3 is [0, 1, 2]
 set q3[0] to 3
+my wnl is a whole number list
+set wnl to [3, 5, 8, 10]
+my wnll is a whole number list list
+set wnll to [[1, 2, 3, 4], wnl]
+my nlll is a number list list list
+set nlll to [[[1.1, 1, 2], apples5], [[0923412, c, z]]]
 
 --Type Declaration:
 an animal has:
@@ -31,6 +37,19 @@ set ave to 24.5
 my dog is animal {feet: 4, color: "brown", isVertebrate:yes, averageWeight: 24.5}
 my dog2 is animal {feet: f, color: col, isVertebrate: isV, averageWeight: ave}
 
+a listbox has:
+  a whole number list wnl
+  a number list list list nlll
+  a string list sl
+end
+
+my lb1 is listbox { wnl: [1, 2, 3], nlll: nlll, sl: ["sup", "bro"] }
+
+my dog3 is a dog
+--set nl to nothing
+
+my abc is a number
+my def is a string
 
 --Parallel Assignment:
 set x, z to 4, 5.5
