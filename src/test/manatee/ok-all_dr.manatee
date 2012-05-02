@@ -262,6 +262,7 @@ write wxyz + [2, 3, 4]
 write [2.0, 3, 4] + wxyz
 my ababa is "ababa"
 my babab is a string
+write ababa is babab
 set babab to ababa * 5
 write ababa in zyx
 write 'c' in ababa
