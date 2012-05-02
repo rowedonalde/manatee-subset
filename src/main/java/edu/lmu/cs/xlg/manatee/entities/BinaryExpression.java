@@ -79,12 +79,9 @@ public class BinaryExpression extends Expression {
                     if (leftArrayType.getFundamentalType() == Type.NUMBER
                         && rightArrayType.getFundamentalType().isArithmetic()) {
                         type = left.type;
-                    } else if (leftArrayType.getFundamentalType() == Type.WHOLE_NUMBER
-                               && rightArrayType.getFundamentalType() == Type.WHOLE_NUMBER) {
+                    } else if (leftArrayType.getFundamentalType() == Type.WHOLE_NUMBER //) {
+                               && rightArrayType.getFundamentalType() == Type.WHOLE_NUMBER) {       
                         type = left.type;
-                    //} else if (leftArrayType.getBaseType().canBeAssignedTo(right.type)) {
-                    //    //type = left.type;
-                    //    type = right.type;
                     } else if (right.type.canBeAssignedTo(leftArrayType.getBaseType())) {
                         type = left.type;
                     } else {
@@ -99,9 +96,7 @@ public class BinaryExpression extends Expression {
                     } else if (rightArrayType.getFundamentalType() == Type.WHOLE_NUMBER
                                && leftArrayType.getFundamentalType() == Type.WHOLE_NUMBER) {
                         type = right.type;
-                    //} else if (rightArrayType.getBaseType().canBeAssignedTo(left.type)) {
-                    //    //type = right.type;
-                    //    type = left.type;
+                        
                     } else if (left.type.canBeAssignedTo(rightArrayType.getBaseType())) {
                         type = right.type;
                     
@@ -121,7 +116,6 @@ public class BinaryExpression extends Expression {
                            && right.type == Type.WHOLE_NUMBER) {
                     type = leftArrayType;
                 } else if (right.type.canBeAssignedTo(leftArrayType.getBaseType())) {
-                    //type = right.type;
                     type = left.type;
                 } else {
                     log.error("bad.array.expression");
@@ -134,7 +128,6 @@ public class BinaryExpression extends Expression {
                            && left.type == Type.WHOLE_NUMBER) {
                     type = right.type;
                 } else if (left.type.canBeAssignedTo(rightArrayType.getBaseType())) {
-                    //type = left.type;
                     type = right.type;
                 } else {
                     log.error("bad.array.expression");
