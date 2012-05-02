@@ -62,20 +62,16 @@ public class BinaryExpression extends Expression {
         } else if (op.matches("\\+")) {
             //If both are arrays:
             if (left.isArray() && right.isArray()) {
-                    //System.out.println("!!!!!!!!!!!BOTH ARE ARRAYS!!!!!!!!!!!");
                 ArrayType leftArrayType = (ArrayType)left.type;
-                    //System.out.println("left.type.name: " + left.type.getName());
-                    //System.out.println("left.type: " + left.type);
-                    //System.out.println("leftArrayType.getBaseType().getName(): " + leftArrayType.getBaseType().getName());
                 ArrayType rightArrayType = (ArrayType)right.type;
-                    //System.out.println("right.type.name: " + right.type.getName());
-                    //System.out.println("right.type: " + right.type);
-                    //System.out.println("rightArrayType.getBaseType().getName(): " + rightArrayType.getBaseType().getName());
-                    //System.out.println(left.type.equals(right.type));
                 //If arrays are exactly the same type--same depth and base:
                 if (left.type == right.type) {
-                        //System.out.println("left.type == right.type");
-                        //System.out.println("Given type: " + left.type.getName());
+                    type = left.type;
+                    
+                } else if (left.type.canBeAssignedTo(right.type)) {
+                    type = right.type;
+                
+                } else if (right.type.canBeAssignedTo(left.type)) {
                     type = left.type;
                     
                 //Arrays are one dimension apart, with the left being deeper:
@@ -86,7 +82,10 @@ public class BinaryExpression extends Expression {
                     } else if (leftArrayType.getFundamentalType() == Type.WHOLE_NUMBER
                                && rightArrayType.getFundamentalType() == Type.WHOLE_NUMBER) {
                         type = left.type;
-                    } else if (leftArrayType.getBaseType().canBeAssignedTo(rightArrayType)) {
+                    //} else if (leftArrayType.getBaseType().canBeAssignedTo(right.type)) {
+                    //    //type = left.type;
+                    //    type = right.type;
+                    } else if (right.type.canBeAssignedTo(leftArrayType.getBaseType())) {
                         type = left.type;
                     } else {
                         log.error("bad.array.expression");
@@ -100,29 +99,30 @@ public class BinaryExpression extends Expression {
                     } else if (rightArrayType.getFundamentalType() == Type.WHOLE_NUMBER
                                && leftArrayType.getFundamentalType() == Type.WHOLE_NUMBER) {
                         type = right.type;
-                    } else if (rightArrayType.getBaseType().canBeAssignedTo(leftArrayType)) {
+                    //} else if (rightArrayType.getBaseType().canBeAssignedTo(left.type)) {
+                    //    //type = right.type;
+                    //    type = left.type;
+                    } else if (left.type.canBeAssignedTo(rightArrayType.getBaseType())) {
                         type = right.type;
+                    
                     } else {
                         log.error("bad.array.expression");
                     }
                     
                 } else {
-                        //System.out.println("BOOOOOOOOO!!!!!!!");
                     log.error("bad.array.expression");
                 }
-            }
-            //If left is an array:
-            if (left.isArray() && !right.isArray()) {
+            //If left is an array:  
+            } else if (left.isArray() && !right.isArray()) {
                 ArrayType leftArrayType = (ArrayType)left.type;
                 if (leftArrayType.getBaseType() == Type.NUMBER && right.type.isArithmetic()) {
                     type = left.type;
                 } else if (leftArrayType.getBaseType() == Type.WHOLE_NUMBER
                            && right.type == Type.WHOLE_NUMBER) {
                     type = leftArrayType;
-                } else if (leftArrayType.getBaseType().canBeAssignedTo(right.type)) {
-                    type = left.type;
                 } else if (right.type.canBeAssignedTo(leftArrayType.getBaseType())) {
-                    type = right.type;
+                    //type = right.type;
+                    type = left.type;
                 } else {
                     log.error("bad.array.expression");
                 }
@@ -133,14 +133,13 @@ public class BinaryExpression extends Expression {
                 } else if (rightArrayType.getBaseType() == Type.WHOLE_NUMBER
                            && left.type == Type.WHOLE_NUMBER) {
                     type = right.type;
-                } else if (rightArrayType.getBaseType().canBeAssignedTo(left.type)) {
-                    type = right.type;
                 } else if (left.type.canBeAssignedTo(rightArrayType.getBaseType())) {
-                    type = left.type;
+                    //type = left.type;
+                    type = right.type;
                 } else {
                     log.error("bad.array.expression");
                 }
-            //} else if (left.isArray() && right.isArray
+                
             } else {
                 left.assertArithmetic(op, log);
                 right.assertArithmetic(op, log);
