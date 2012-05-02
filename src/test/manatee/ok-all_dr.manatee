@@ -46,7 +46,7 @@ end
 my lb1 is listbox { wnl: [1, 2, 3], nlll: nlll, sl: ["sup", "bro"] }
 
 my dog3 is an animal
---set nl to nothing
+set dog3 to nothing
 
 my abc is a number
 my def is a string
@@ -92,7 +92,6 @@ do nothing
 --do after waitTime
 do writeName "Manny" after 1 second
 do sayHello after 3 seconds
---do double x after x seconds --so, functions have to be wrapped?
 
 --Throw exception
 fail
@@ -237,6 +236,7 @@ set yn to no or yes and no
 set x to 3 bit or 2
 set x to x bit xor x
 do nothing if 1 ≠ 2
+write nothing if 1 = 2
 set x to -3
 write [1, 2, 3][0]
 write length of "hi"
@@ -245,4 +245,29 @@ write x bit and complement of (x + 1)
 write x bit and complement of x + 1
 set z to dog.averageWeight
 set dog.color to "yellow"
---set x to x x
+my xyz is [1, 2, 3]
+set xyz to xyz + 4
+set xyz to [1, 2, 3] + 4
+set xyz to 4 + xyz
+set xyz to 4 + xyz + 4
+set xyz to xyz + xyz
+my zyx is a string list
+set zyx to ["hello", "dolly"]
+set zyx to zyx + "how are you"
+my wxyz is a number list list
+set wxyz to [[0, 1, 2, 3], [1, 2, 3, 4]]
+write wxyz + [[2, 3, 4]]
+write [[2, 3, 4]] + wxyz
+write wxyz + [2, 3, 4]
+write [2.0, 3, 4] + wxyz
+my ababa is "ababa"
+my babab is a string
+set babab to ababa * 5
+write ababa in zyx
+write 'c' in ababa
+my chxrxctxr is a character
+write chxrxctxr in (zyx + ababa)[2]
+write x modulo c
+set dog.color to "yel" + "low"
+set dog.color to "yello" + chxrxctxr
+set dog.color to 'y' + "ellow"
