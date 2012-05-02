@@ -139,6 +139,14 @@ public class BinaryExpression extends Expression {
                 } else {
                     log.error("bad.array.expression");
                 }
+            
+            //String concatenation:    
+            } else if (left.type == Type.STRING && right.type == Type.STRING) {
+                type = Type.STRING;
+            } else if (left.type == Type.STRING && right.type == Type.CHARACTER) {
+                type = Type.STRING;
+            } else if (left.type == Type.CHARACTER && right.type == Type.STRING) {
+                type = Type.STRING;
                 
             } else {
                 left.assertArithmetic(op, log);
