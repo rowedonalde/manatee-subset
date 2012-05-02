@@ -45,7 +45,7 @@ end
 
 my lb1 is listbox { wnl: [1, 2, 3], nlll: nlll, sl: ["sup", "bro"] }
 
-my dog3 is a dog
+my dog3 is an animal
 --set nl to nothing
 
 my abc is a number

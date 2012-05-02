@@ -250,6 +250,7 @@ Variable VARDEC(): {
 
 String TYPE(): {
     String t;
+    Token objT;
     StringBuilder builder = new StringBuilder();
 }{
     (
@@ -262,6 +263,8 @@ String TYPE(): {
         "number" {t = "number";}
     |
         "string" {t = "string";}
+    |
+        objT = <ID> {t = objT.image;}
     )
     {builder.append(t);}
     (
