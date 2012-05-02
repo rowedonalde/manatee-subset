@@ -44,7 +44,7 @@ public class PropertyExpression extends Expression {
         //If the parent object is not actually an object type,
         //throw an error and quit:
         this.objectType = this.object.getType();
-        if (!objectType.isObjectType()) {
+        if (objectType == null || !objectType.isObjectType()) {
             log.error("not.object.type");
             return;
         }
