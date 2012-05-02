@@ -52,7 +52,7 @@ public class BinaryExpression extends Expression {
             type = Type.STRING;
 
         // num op num (for arithmetic op)
-        } else if (op.matches("[-*/]")) {
+        } else if (op.matches("[-/]")) {
             left.assertArithmetic(op, log);
             right.assertArithmetic(op, log);
             type = (left.type == Type.NUMBER || right.type == Type.NUMBER)
@@ -91,6 +91,17 @@ public class BinaryExpression extends Expression {
                 } else {
                     log.error("bad.array.expression");
                 }
+            } else {
+                left.assertArithmetic(op, log);
+                right.assertArithmetic(op, log);
+                type = (left.type == Type.NUMBER || right.type == Type.NUMBER)
+                    ? Type.NUMBER : Type.WHOLE_NUMBER;
+            }
+        
+        //Multiplication/string multiplying:
+        } else if (op.matches("\\*")) {
+            if (left.type == Type.STRING && right.type == Type.WHOLE_NUMBER) {
+                type = left.type;
             } else {
                 left.assertArithmetic(op, log);
                 right.assertArithmetic(op, log);
