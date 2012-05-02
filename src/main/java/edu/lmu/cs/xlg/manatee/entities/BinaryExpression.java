@@ -86,6 +86,7 @@ public class BinaryExpression extends Expression {
                         type = left.type;
                     } else {
                         log.error("bad.array.expression");
+                        type = Type.ARBITRARY;
                     }
                     
                 //Arrays are one dimension apart and right is deeper:
@@ -102,10 +103,12 @@ public class BinaryExpression extends Expression {
                     
                     } else {
                         log.error("bad.array.expression");
+                        type = Type.ARBITRARY;
                     }
                     
                 } else {
                     log.error("bad.array.expression");
+                    type = Type.ARBITRARY;
                 }
             //If left is an array:  
             } else if (left.isArray() && !right.isArray()) {
@@ -119,6 +122,7 @@ public class BinaryExpression extends Expression {
                     type = left.type;
                 } else {
                     log.error("bad.array.expression");
+                    type = Type.ARBITRARY;
                 }
             } else if (!left.isArray() && right.isArray()) {
                 ArrayType rightArrayType = (ArrayType)right.type;
@@ -131,6 +135,7 @@ public class BinaryExpression extends Expression {
                     type = right.type;
                 } else {
                     log.error("bad.array.expression");
+                    type = Type.ARBITRARY;
                 }
             
             //String concatenation:    
