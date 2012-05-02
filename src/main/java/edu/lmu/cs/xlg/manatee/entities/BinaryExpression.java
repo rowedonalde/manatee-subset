@@ -52,12 +52,52 @@ public class BinaryExpression extends Expression {
             type = Type.STRING;
 
         // num op num (for arithmetic op)
-        } else if (op.matches("[-+*/]")) {
+        } else if (op.matches("[-*/]")) {
             left.assertArithmetic(op, log);
             right.assertArithmetic(op, log);
             type = (left.type == Type.NUMBER || right.type == Type.NUMBER)
                 ? Type.NUMBER : Type.WHOLE_NUMBER;
-
+                
+        //Addition/array pushing
+        } else if (op.matches("\\+")) {
+            //If both are arrays:
+            /*if (left.isArray() && right.isArray()) {
+                if (left.type == Type.NUMBER && right.type == Type.NUMBER) {
+                    
+                }
+            }*/
+            //If left is an array:
+            if (left.isArray() && !right.isArray()) {
+                ArrayType leftArrayType = (ArrayType)left.type;
+                if (leftArrayType.getBaseType() == Type.NUMBER && right.type.isArithmetic()) {
+                    type = left.type;
+                } else if (leftArrayType.getBaseType() == Type.WHOLE_NUMBER
+                           && right.type == Type.WHOLE_NUMBER) {
+                    type = left.type;
+                } else if (leftArrayType.getBaseType().canBeAssignedTo(right.type)) {
+                    type = left.type;
+                } else {
+                    log.error("bad.array.expression");
+                }
+            } else if (!left.isArray() && right.isArray()) {
+                ArrayType rightArrayType = (ArrayType)right.type;
+                if (rightArrayType.getBaseType() == Type.NUMBER && left.type.isArithmetic()) {
+                    type = right.type;
+                } else if (rightArrayType.getBaseType() == Type.WHOLE_NUMBER
+                           && left.type == Type.WHOLE_NUMBER) {
+                    type = right.type;
+                } else if (rightArrayType.getBaseType().canBeAssignedTo(left.type)) {
+                    type = right.type;
+                } else {
+                    log.error("bad.array.expression");
+                }
+            } else {
+                left.assertArithmetic(op, log);
+                right.assertArithmetic(op, log);
+                type = (left.type == Type.NUMBER || right.type == Type.NUMBER)
+                    ? Type.NUMBER : Type.WHOLE_NUMBER;
+            }
+            
         // int op int returning int (for shifts and mod)
         } else if (op.matches("<<|>>|bit or|bit xor|bit and")) {
             left.assertInteger(op, log);
