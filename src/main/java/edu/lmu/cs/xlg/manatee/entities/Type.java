@@ -68,6 +68,10 @@ public class Type extends Declaration {
         this.properties = properties;
     }
     
+    public List<Variable> getProperties() {
+        return this.properties;
+    }
+    
     /**
      * Returns whether this type is an object type.
      */
