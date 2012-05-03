@@ -124,10 +124,18 @@ public class ManateeToJavaScriptGenerator extends Generator {
             CallStatement call = CallStatement.class.cast(s);
             String procedure = id(call.getProcedure());
             List<String> arguments = new ArrayList<String>();
+            Expression waitTime = call.getWaitTime();
             for (Expression argument: call.getArgs()) {
                 arguments.add(generateExpression(argument));
             }
-            emit(String.format("%s(%s)", procedure, StringUtils.join(arguments, ", ")));
+            if (waitTime != null) {
+                emit("setTimeout(function(){"
+                     + String.format("%s(%s)", procedure, StringUtils.join(arguments, ", "))
+                     + "}, 1000 * " + generateExpression(waitTime) + ");");
+            } else {
+                emit(String.format("%s(%s)", procedure, StringUtils.join(arguments, ", "))
+                     + ";");
+            }
 
         } else if (s instanceof ModifiedStatement) {
             ModifiedStatement m = ModifiedStatement.class.cast(s);
