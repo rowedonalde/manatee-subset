@@ -1,0 +1,6 @@
+my x is yes
+my y is no
+
+if x + y*x:
+  write "Aint *that* the truth!"
+end

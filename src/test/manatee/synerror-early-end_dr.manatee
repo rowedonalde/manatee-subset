@@ -1,0 +1,6 @@
+try:
+  write 3 + "2"
+end
+recover:
+  write 3 + 2
+end

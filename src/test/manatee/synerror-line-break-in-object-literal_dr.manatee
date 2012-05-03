@@ -1,0 +1,13 @@
+an animal has:
+  a whole number feet
+  a string color
+  a truth value isVertebrate
+  a number averageWeight
+end
+
+my dog is animal {
+                   feet: 4,
+                   color: "brown",
+                   isVertebrate:yes,
+                   averageWeight: 24.5
+                 }

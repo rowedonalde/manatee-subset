@@ -1,0 +1,10 @@
+an animal has:
+  a whole number feet
+  a string color
+  a truth value isVertebrate
+  a number averageWeight
+end
+
+my dog is an animal
+
+set dog["feet"] to 4

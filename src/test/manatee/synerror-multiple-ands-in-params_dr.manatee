@@ -1,0 +1,3 @@
+to get the number total of number x and number y and number z:
+  return x + y + z
+end

@@ -1,0 +1,6 @@
+a stuffbox has:
+  a whole number x
+  a whole number y
+end
+
+my box is stuffbox {x: 5, y: box.x}

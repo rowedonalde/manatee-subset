@@ -1,0 +1,4 @@
+while yes:
+  write "hello"
+  exit
+end
