@@ -21,6 +21,7 @@ import edu.lmu.cs.xlg.manatee.entities.DoNothingStatement;
 import edu.lmu.cs.xlg.manatee.entities.ExitStatement;
 import edu.lmu.cs.xlg.manatee.entities.Expression;
 import edu.lmu.cs.xlg.manatee.entities.FailStatement;
+import edu.lmu.cs.xlg.manatee.entities.Function;
 import edu.lmu.cs.xlg.manatee.entities.FunctionCall;
 import edu.lmu.cs.xlg.manatee.entities.IdentifierExpression;
 import edu.lmu.cs.xlg.manatee.entities.IncrementStatement;
@@ -95,6 +96,9 @@ public class ManateeToJavaScriptGenerator extends Generator {
     
         } else if (s instanceof Declaration) {
             generateDeclaration(Declaration.class.cast(s));
+            
+        //} else if (s instanceof Function) {
+        //    generateDeclaration(Declaration.class.cast(s));
 
         } else if (s instanceof DoNothingStatement) {
             emit(";");
@@ -108,6 +112,10 @@ public class ManateeToJavaScriptGenerator extends Generator {
         } else if (s instanceof ReadStatement) {
             // TODO
             emit("// READ STATEMENTS NOT YET HANDLED");
+            
+        } else if (s instanceof FailStatement) {
+            //TODO
+            emit("// FAIL STATEMENTS NOT YET HANDLED");
 
         } else if (s instanceof WriteStatement) {
             Expression e = WriteStatement.class.cast(s).getExpression();
@@ -141,12 +149,16 @@ public class ManateeToJavaScriptGenerator extends Generator {
             ModifiedStatement m = ModifiedStatement.class.cast(s);
             String key;
             switch (m.getModifier().getType()) {
-            case IF: key = "if"; break;
-            case WHILE: key = "while"; break;
+            //case IF: key = "if"; break;
+            //case WHILE: key = "while"; break;
+            case IF: key = "if ("; break;
+            case WHILE: key = "while ("; break;
+            case UNLESS: key = "if (!"; break;
+            case UNTIL: key = "while (!"; break;
             default: throw new RuntimeException("Internal error: unknown modifier");
             }
             String condition = generateExpression(m.getModifier().getCondition());
-            emit(String.format("%s (%s) {", key, condition));
+            emit(String.format("%s %s) {", key, condition));
             indentLevel++;
             generateStatement(m.getStatement());
             indentLevel--;
@@ -292,7 +304,17 @@ public class ManateeToJavaScriptGenerator extends Generator {
             } else {
                 emit("var " + id(d) + " = " + generateExpression(v.getInitializer()) + ";");
             }
-
+        /*
+        } else if (d instanceof Function) {
+            Function f = Function.class.cast(d);
+            List<String> parameters = new ArrayList<String>();
+            for (Variable v: f.getParameters()) {
+                parameters.add(id(v));
+            }
+            emit(String.format("function %s(%s) {", id(f), StringUtils.join(parameters, ", ")));
+            generateBlock(f.getBody());
+            emit("}");
+        */
         } else {
             Subroutine s = Subroutine.class.cast(d);
             List<String> parameters = new ArrayList<String>();
