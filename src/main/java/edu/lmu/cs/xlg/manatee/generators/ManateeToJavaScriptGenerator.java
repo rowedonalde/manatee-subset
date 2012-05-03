@@ -83,12 +83,12 @@ public class ManateeToJavaScriptGenerator extends Generator {
     private void generateStatement(Statement s) {
         if (s instanceof Type && Type.class.cast(s).isObjectType()) {
             Type sType = (Type)s;
-            emit("var " + id(sType) + " = " + "function() {");
+            emit("var " + id(sType) + " = " + "function(options) {");
             indentLevel++;
             for (Variable p: sType.getProperties()) {
                 //Just using the original names for properties since
                 //they're limited to their own little namespace:
-                emit("this." + p.getName() + ";");
+                emit("this." + p.getName() + " = options." + p.getName() + ";");
             }
             indentLevel--;
             emit("};");
@@ -216,6 +216,25 @@ public class ManateeToJavaScriptGenerator extends Generator {
     private String generateExpression(Expression e) {
         if (e instanceof Literal) {
             return generateLiteral(Literal.class.cast(e));
+        
+        } else if (e instanceof ObjectLiteral) {
+            //return generateObjectLiteral(ObjectLiteral.class.cast(e));
+            ObjectLiteral eObjectLiteral = (ObjectLiteral)e;
+            String output = "";
+            Type type = eObjectLiteral.getType();
+            List<String> propertyNames = eObjectLiteral.getPropertyNames();
+            List<Expression> propertyValues = eObjectLiteral.getPropertyValues();
+            output += "new " + id(type) + "({";
+            //Cycle through the properties and generate options:
+            for (int i = 0; i < propertyNames.size(); i++) {
+                if (i > 0) {
+                    output += ", ";
+                }
+                output += propertyNames.get(i) + ": ";
+                output += generateExpression(propertyValues.get(i));
+            }
+            output += "})";
+            return output;
 
         } else if (e instanceof IdentifierExpression) {
             return id(IdentifierExpression.class.cast(e).getReferent());
