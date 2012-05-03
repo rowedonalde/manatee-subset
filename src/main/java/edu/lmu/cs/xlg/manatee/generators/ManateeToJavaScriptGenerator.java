@@ -7,6 +7,7 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 
 import edu.lmu.cs.xlg.manatee.entities.ArrayConstructor;
+import edu.lmu.cs.xlg.manatee.entities.ArrayType;
 import edu.lmu.cs.xlg.manatee.entities.AssignmentStatement;
 import edu.lmu.cs.xlg.manatee.entities.BinaryExpression;
 import edu.lmu.cs.xlg.manatee.entities.Block;
@@ -19,13 +20,19 @@ import edu.lmu.cs.xlg.manatee.entities.Declaration;
 import edu.lmu.cs.xlg.manatee.entities.DoNothingStatement;
 import edu.lmu.cs.xlg.manatee.entities.ExitStatement;
 import edu.lmu.cs.xlg.manatee.entities.Expression;
+import edu.lmu.cs.xlg.manatee.entities.FailStatement;
 import edu.lmu.cs.xlg.manatee.entities.FunctionCall;
 import edu.lmu.cs.xlg.manatee.entities.IdentifierExpression;
+import edu.lmu.cs.xlg.manatee.entities.IncrementStatement;
 import edu.lmu.cs.xlg.manatee.entities.Literal;
 import edu.lmu.cs.xlg.manatee.entities.ModifiedStatement;
 import edu.lmu.cs.xlg.manatee.entities.NullLiteral;
 import edu.lmu.cs.xlg.manatee.entities.NumberLiteral;
+import edu.lmu.cs.xlg.manatee.entities.ObjectLiteral;
+import edu.lmu.cs.xlg.manatee.entities.ParallelAssignmentStatement;
 import edu.lmu.cs.xlg.manatee.entities.PlainLoop;
+import edu.lmu.cs.xlg.manatee.entities.Procedure;
+import edu.lmu.cs.xlg.manatee.entities.PropertyExpression;
 import edu.lmu.cs.xlg.manatee.entities.RangeLoop;
 import edu.lmu.cs.xlg.manatee.entities.ReadStatement;
 import edu.lmu.cs.xlg.manatee.entities.ReturnStatement;
@@ -35,8 +42,10 @@ import edu.lmu.cs.xlg.manatee.entities.StringLiteral;
 import edu.lmu.cs.xlg.manatee.entities.Subroutine;
 import edu.lmu.cs.xlg.manatee.entities.SubscriptExpression;
 import edu.lmu.cs.xlg.manatee.entities.TimesLoop;
+import edu.lmu.cs.xlg.manatee.entities.TryStatement;
 import edu.lmu.cs.xlg.manatee.entities.Type;
 import edu.lmu.cs.xlg.manatee.entities.UnaryExpression;
+import edu.lmu.cs.xlg.manatee.entities.UntilLoop;
 import edu.lmu.cs.xlg.manatee.entities.Variable;
 import edu.lmu.cs.xlg.manatee.entities.WhileLoop;
 import edu.lmu.cs.xlg.manatee.entities.WholeNumberLiteral;
@@ -72,7 +81,19 @@ public class ManateeToJavaScriptGenerator extends Generator {
      * Emits JavaScript code for the given Manatee statement.
      */
     private void generateStatement(Statement s) {
-        if (s instanceof Declaration) {
+        if (s instanceof Type && Type.class.cast(s).isObjectType()) {
+            Type sType = (Type)s;
+            emit("var " + id(sType) + " = " + "function() {");
+            indentLevel++;
+            for (Variable p: sType.getProperties()) {
+                //Just using the original names for properties since
+                //they're limited to their own little namespace:
+                emit("this." + p.getName() + ";");
+            }
+            indentLevel--;
+            emit("};");
+    
+        } else if (s instanceof Declaration) {
             generateDeclaration(Declaration.class.cast(s));
 
         } else if (s instanceof DoNothingStatement) {
