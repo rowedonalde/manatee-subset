@@ -96,9 +96,6 @@ public class ManateeToJavaScriptGenerator extends Generator {
     
         } else if (s instanceof Declaration) {
             generateDeclaration(Declaration.class.cast(s));
-            
-        //} else if (s instanceof Function) {
-        //    generateDeclaration(Declaration.class.cast(s));
 
         } else if (s instanceof DoNothingStatement) {
             emit(";");
@@ -256,6 +253,12 @@ public class ManateeToJavaScriptGenerator extends Generator {
 
         } else if (e instanceof IdentifierExpression) {
             return id(IdentifierExpression.class.cast(e).getReferent());
+        
+        } else if (e instanceof PropertyExpression) {
+            Expression object = PropertyExpression.class.cast(e).getObject();
+            return generateExpression(object)
+                   + "."
+                   + PropertyExpression.class.cast(e).getPropertyName();
 
         } else if (e instanceof UnaryExpression) {
             return generateUnaryExpression(UnaryExpression.class.cast(e));
