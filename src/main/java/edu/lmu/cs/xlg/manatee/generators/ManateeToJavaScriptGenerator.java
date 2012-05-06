@@ -421,6 +421,12 @@ public class ManateeToJavaScriptGenerator extends Generator {
             op = "!==";
         } else if (op.equals("in")) {
             return String.format("(%s.indexOf(%s) >= 0)", right, left);
+        } else if (op.equals("bit or")) {
+            op = "|";
+        } else if (op.equals("bit and")) {
+            op = "&";
+        } else if (op.equals("bit xor")) {
+            op = "^";
         } else if (op.matches("-|/|<<|>>|<|<=|>|>=")) {
             // Nothing here, just checking the operator is valid
         } else {
