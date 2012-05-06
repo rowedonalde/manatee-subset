@@ -149,8 +149,6 @@ public class ManateeToJavaScriptGenerator extends Generator {
             ModifiedStatement m = ModifiedStatement.class.cast(s);
             String key;
             switch (m.getModifier().getType()) {
-            //case IF: key = "if"; break;
-            //case WHILE: key = "while"; break;
             case IF: key = "if ("; break;
             case WHILE: key = "while ("; break;
             case UNLESS: key = "if (!"; break;
@@ -304,17 +302,6 @@ public class ManateeToJavaScriptGenerator extends Generator {
             } else {
                 emit("var " + id(d) + " = " + generateExpression(v.getInitializer()) + ";");
             }
-        /*
-        } else if (d instanceof Function) {
-            Function f = Function.class.cast(d);
-            List<String> parameters = new ArrayList<String>();
-            for (Variable v: f.getParameters()) {
-                parameters.add(id(v));
-            }
-            emit(String.format("function %s(%s) {", id(f), StringUtils.join(parameters, ", ")));
-            generateBlock(f.getBody());
-            emit("}");
-        */
         } else {
             Subroutine s = Subroutine.class.cast(d);
             List<String> parameters = new ArrayList<String>();
@@ -369,6 +356,8 @@ public class ManateeToJavaScriptGenerator extends Generator {
             return "(!(" + operand + "))";
         } else if ("length".equals(e.getOp())) {
             return "((" + operand + ").length)";
+        } else if ("complement".equals(e.getOp())) {
+            return "(~(" + operand + "))";
         } else {
             throw new RuntimeException("Internal Error: unknown unary operator");
         }
