@@ -107,12 +107,17 @@ public class ManateeToJavaScriptGenerator extends Generator {
             emit(String.format("%s = %s;", target, source));
 
         } else if (s instanceof ReadStatement) {
-            // TODO
+            
             emit("// READ STATEMENTS NOT YET HANDLED");
             
         } else if (s instanceof FailStatement) {
-            //TODO
-            emit("// FAIL STATEMENTS NOT YET HANDLED");
+            Expression e = FailStatement.class.cast(s).getExpression();
+            
+            if (e != null) {
+                emit("throw " + generateExpression(e) + ";");
+            } else {
+                emit("throw 'GeneralException';");
+            }
 
         } else if (s instanceof WriteStatement) {
             Expression e = WriteStatement.class.cast(s).getExpression();
