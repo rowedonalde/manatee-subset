@@ -419,6 +419,8 @@ public class ManateeToJavaScriptGenerator extends Generator {
             op = "&";
         } else if (op.equals("bit xor")) {
             op = "^";
+        } else if (op.equals("modulo")) {
+            op = "%";
         } else if (op.matches("-|/|<<|>>|<|<=|>|>=")) {
             // Nothing here, just checking the operator is valid
         } else {
